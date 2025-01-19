@@ -1,13 +1,19 @@
-let delay = 4000; // msec
+let delay = 3000; // msec
 let activeIndex = -1;
 let iv;
 let loop = -1;
 const inactiveClass = "opacity-15";
 const rectangles = document.querySelectorAll(".rect");
 const cntRect = rectangles.length;
+const startBtn = document.querySelector("#startBtn");
+const startModal = document.querySelector("#startModal");
+const incrSpeedBtn = document.querySelector("#incrSpeed");
+const decrSpeedBtn = document.querySelector("#decrSpeed");
+const speed = document.querySelector("#speed");
 
 function init() {
 	rectangles.forEach((node) => node.classList.add(inactiveClass));
+	setSpeedOnFrontend();
 	// console.log(rectangles);
 }
 
@@ -34,5 +40,26 @@ function setRandomNode(arr, excludeIndex) {
 	activeIndex = rnd;
 }
 
+function setDelay(direction) {
+	direction === "incr" ? (delay += 1000) : (delay -= 1000);
+	setSpeedOnFrontend();
+}
+
+function setSpeedOnFrontend() {
+	speed.innerHTML = delay / 1000 + " sec";
+}
+
+startBtn.addEventListener("click", () => {
+	start();
+	startModal.classList.add("hidden");
+});
+
+incrSpeedBtn.addEventListener("click", () => {
+	setDelay("incr");
+});
+
+decrSpeedBtn.addEventListener("click", () => {
+	if (delay > 1000) setDelay("decr");
+});
+
 init();
-start();
